@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjetoAnime.Application.Interfaces;
+using ProjetoAnime.Core.Entidade;
 
 namespace ProjetoAnime.Controllers
 {
