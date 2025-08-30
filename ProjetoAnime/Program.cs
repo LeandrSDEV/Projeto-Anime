@@ -1,12 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona a injeção de dependência do AnimeService
 builder.Services.AddScoped<IAnimeService, AnimeService>();
 
-// Adiciona a injeção de dependência do AnimeRepository
 builder.Services.AddScoped<IAnimeRepository, AnimeRepository>();
 
-// Configurações do DbContext
 builder.Services.AddDbContext<AnimeDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
