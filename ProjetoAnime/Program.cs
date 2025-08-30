@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProjetoAnime.Application.Interfaces;
 using ProjetoAnime.Application.Services;
@@ -6,6 +7,8 @@ using ProjetoAnime.Infrastructure.Data;
 using ProjetoAnime.Infrastructure.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMediatR(typeof(Program));
 
 builder.Services.AddScoped<IAnimeService, AnimeService>();
 
