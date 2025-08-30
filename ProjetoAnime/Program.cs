@@ -1,16 +1,14 @@
-using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ProjetoAnime.Application.Commands;
 using ProjetoAnime.Application.Interfaces;
-using ProjetoAnime.Application.Services;
-using ProjetoAnime.Core.Repository;
+using ProjetoAnime.Application.Queries;
 using ProjetoAnime.Infrastructure.Data;
-using ProjetoAnime.Infrastructure.Repository;
+using ProjetoAnime.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMediatR(typeof(Program));
-
-builder.Services.AddScoped<IAnimeService, AnimeService>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetAllAnimesQuery>());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<DeleteAnimeCommandHandler>());
 
 builder.Services.AddScoped<IAnimeRepository, AnimeRepository>();
 

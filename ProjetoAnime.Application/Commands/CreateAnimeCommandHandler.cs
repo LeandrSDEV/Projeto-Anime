@@ -1,11 +1,6 @@
 ﻿using MediatR;
+using ProjetoAnime.Application.Interfaces;
 using ProjetoAnime.Core.Entidade;
-using ProjetoAnime.Core.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjetoAnime.Application.Queries
 {

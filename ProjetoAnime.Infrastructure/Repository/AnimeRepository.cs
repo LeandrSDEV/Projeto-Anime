@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjetoAnime.Application.Interfaces;
 using ProjetoAnime.Core.Entidade;
-using ProjetoAnime.Core.Repository;
 using ProjetoAnime.Infrastructure.Data;
 
-namespace ProjetoAnime.Infrastructure.Repository
+namespace ProjetoAnime.Infrastructure.Repositories
 {
     public class AnimeRepository : IAnimeRepository
     {
@@ -13,30 +13,37 @@ namespace ProjetoAnime.Infrastructure.Repository
         {
             _context = context;
         }
+    
+        public async Task<List<Anime>> GetAllAsync()
+            => await _context.Animes.ToListAsync();
 
-        public async Task<IEnumerable<Anime>> GetAllAsync() => await _context.Animes.ToListAsync();
-        public async Task<Anime> GetByIdAsync(int id) => await _context.Animes.FindAsync(id);
+        public async Task<Anime> GetByIdAsync(int id)
+            => await _context.Animes.FindAsync(id);
+
         public async Task<Anime> AddAsync(Anime anime)
         {
             _context.Animes.Add(anime);
             await _context.SaveChangesAsync();
             return anime;
         }
+
         public async Task<Anime> UpdateAsync(Anime anime)
         {
             _context.Animes.Update(anime);
             await _context.SaveChangesAsync();
             return anime;
         }
+
         public async Task DeleteAsync(int id)
         {
-            var anime = await _context.Animes.FindAsync(id);
-            if (anime != null)
+            var existingAnime = await _context.Animes.FindAsync(id);
+            if (existingAnime == null)
             {
-                _context.Animes.Remove(anime);
-                await _context.SaveChangesAsync();
+                throw new ArgumentException("Anime não encontrado.");
             }
+
+            _context.Animes.Remove(existingAnime);
+            await _context.SaveChangesAsync();
         }
     }
-
 }

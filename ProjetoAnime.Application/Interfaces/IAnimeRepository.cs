@@ -1,11 +1,11 @@
 ﻿using ProjetoAnime.Core.Entidade;
 
-namespace ProjetoAnime.Core.Repository
+namespace ProjetoAnime.Application.Interfaces
 {
     public interface IAnimeRepository
     {
-        Task<IEnumerable<Anime>> GetAllAsync();
         Task<Anime> GetByIdAsync(int id);
+        Task<List<Anime>> GetAllAsync();
         Task<Anime> AddAsync(Anime anime);
         Task<Anime> UpdateAsync(Anime anime);
         Task DeleteAsync(int id);
