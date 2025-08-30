@@ -11,9 +11,4 @@
     <ProjectReference Include="..\ProjetoAnime.Infrastructure\ProjetoAnime.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
