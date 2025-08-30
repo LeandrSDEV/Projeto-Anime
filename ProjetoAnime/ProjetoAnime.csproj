@@ -17,4 +17,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProjetoAnime.Application\ProjetoAnime.Application.csproj" />
+  </ItemGroup>
+
 </Project>

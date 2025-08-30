@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProjetoAnime.Core\ProjetoAnime.Core.csproj" />
+  </ItemGroup>
+
 </Project>
