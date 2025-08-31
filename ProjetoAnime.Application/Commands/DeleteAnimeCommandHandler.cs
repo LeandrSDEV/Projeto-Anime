@@ -13,24 +13,23 @@ namespace ProjetoAnime.Application.Commands
 
     public class DeleteAnimeCommandHandler : IRequestHandler<DeleteAnimeCommand>
     {
-        private readonly IAnimeRepository _animeRepository;
+        private readonly IAnimeRepository _repository;
 
-        public DeleteAnimeCommandHandler(IAnimeRepository animeRepository)
+        public DeleteAnimeCommandHandler(IAnimeRepository repository)
         {
-            _animeRepository = animeRepository;
+            _repository = repository;
         }
 
         // Método Handle com Task<Unit> como retorno
         public async Task<Unit> Handle(DeleteAnimeCommand request, CancellationToken cancellationToken)
         {
-            var anime = await _animeRepository.GetByIdAsync(request.Id);
+            var anime = await _repository.GetByIdAsync(request.Id);
             if (anime == null)
-            {
-                throw new ArgumentException("Anime não encontrado.");
-            }
+                throw new KeyNotFoundException($"Anime com ID {request.Id} não encontrado.");
 
-            await _animeRepository.DeleteAsync(request.Id);
-            return Unit.Value;  // Retorna Unit.Value para indicar que não há dados a retornar, mas o comando foi bem-sucedido
+            await _repository.DeleteAsync(request.Id);
+
+            return Unit.Value;
         }
 
         Task IRequestHandler<DeleteAnimeCommand>.Handle(DeleteAnimeCommand request, CancellationToken cancellationToken)
