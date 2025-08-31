@@ -1,13 +1,8 @@
 ﻿using MediatR;
 using ProjetoAnime.Application.Interfaces;
 using ProjetoAnime.Core.Entidade;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ProjetoAnime.Application.Commands
+namespace ProjetoAnime.Application.Commands.UpdateAnime
 {
     public class UpdateAnimeCommandHandler : IRequestHandler<UpdateAnimeCommand, Anime>
     {
@@ -22,17 +17,13 @@ namespace ProjetoAnime.Application.Commands
         {
             var anime = await _repository.GetByIdAsync(request.Id);
             if (anime == null)
-            {
-                return null;
-            }
+                throw new KeyNotFoundException($"Anime com ID {request.Id} não encontrado.");
 
             anime.Nome = request.Nome;
             anime.Diretor = request.Diretor;
             anime.Resumo = request.Resumo;
 
-            await _repository.UpdateAsync(anime);
-            return anime;
+            return await _repository.UpdateAsync(anime);
         }
     }
-
 }

@@ -53,21 +53,16 @@ namespace ProjetoAnime.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAnime(int id, [FromBody] Anime anime)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateAnimeCommand command)
         {
-            if (id != anime.Id)
-            {
-                return BadRequest();
-            }
-            var command = new UpdateAnimeCommand
-            {
-                Id = anime.Id,
-                Nome = anime.Nome,
-                Diretor = anime.Diretor,
-                Resumo = anime.Resumo
-            };
-            var updatedAnime = await _mediator.Send(command);
-            return Ok(updatedAnime);
+            if (id != command.Id)
+                return BadRequest("ID na URL não corresponde ao corpo da requisição.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var updated = await _mediator.Send(command);
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
