@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace ProjetoAnime.Application.Queries
 {
-    public class GetAllAnimesQuery : IRequest<List<Anime>>
+    public class GetAllAnimesQuery : IRequest<IEnumerable<Anime>>
     {
+        public string? Nome { get; set; }
+        public string? Diretor { get; set; }
     }
 }

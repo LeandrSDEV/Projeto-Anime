@@ -7,7 +7,7 @@ using ProjetoAnime.Core.Entidade;
 namespace ProjetoAnime.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/animes")]
     public class AnimeController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -18,9 +18,14 @@ namespace ProjetoAnime.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? nome, [FromQuery] string? diretor)
         {
-            var query = new GetAllAnimesQuery();
+            var query = new GetAllAnimesQuery
+            {
+                Nome = nome,
+                Diretor = diretor
+            };
+
             var animes = await _mediator.Send(query);
             return Ok(animes);
         }

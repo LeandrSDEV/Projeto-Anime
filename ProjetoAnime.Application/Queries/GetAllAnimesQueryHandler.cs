@@ -4,19 +4,32 @@ using ProjetoAnime.Core.Entidade;
 
 namespace ProjetoAnime.Application.Queries
 {
-    public class GetAllAnimesQueryHandler : IRequestHandler<GetAllAnimesQuery, List<Anime>>
+    public class GetAllAnimesQueryHandler : IRequestHandler<GetAllAnimesQuery, IEnumerable<Anime>>
     {
-        private readonly IAnimeRepository _animeRepository;
+        private readonly IAnimeRepository _repository;
 
-        public GetAllAnimesQueryHandler(IAnimeRepository animeRepository)
+        public GetAllAnimesQueryHandler(IAnimeRepository repository)
         {
-            _animeRepository = animeRepository;
+            _repository = repository;
         }
 
-        public async Task<List<Anime>> Handle(GetAllAnimesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Anime>> Handle(GetAllAnimesQuery request, CancellationToken cancellationToken)
         {
-            var animes = await _animeRepository.GetAllAsync();
+            var animes = (await _repository.GetAllAsync()).ToList();
+
+            if (!string.IsNullOrEmpty(request.Nome))
+                animes = animes
+                    .Where(a => a.Nome.Contains(request.Nome, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+            if (!string.IsNullOrEmpty(request.Diretor))
+                animes = animes
+                    .Where(a => a.Diretor.Contains(request.Diretor, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
             return animes;
         }
+
     }
+
 }
