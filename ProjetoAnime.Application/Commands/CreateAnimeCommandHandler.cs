@@ -22,9 +22,7 @@ namespace ProjetoAnime.Application.Queries
                 Resumo = request.Resumo
             };
 
-            await _repository.AddAsync(anime);
-            return anime;
+            return await _repository.AddAsync(anime);
         }
     }
-
 }

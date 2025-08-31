@@ -43,8 +43,11 @@ namespace ProjetoAnime.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAnime([FromBody] CreateAnimeCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateAnimeCommand command)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var anime = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetById), new { id = anime.Id }, anime);
         }
