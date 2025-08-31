@@ -13,9 +13,19 @@ namespace ProjetoAnime.Infrastructure.Repositories
         {
             _context = context;
         }
-    
-        public async Task<List<Anime>> GetAllAsync()
-            => await _context.Animes.ToListAsync();
+
+        public async Task<IEnumerable<Anime>> GetFilteredAsync(string? nome, string? diretor)
+        {
+            var query = _context.Animes.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(nome))
+                query = query.Where(a => a.Nome.Contains(nome));
+
+            if (!string.IsNullOrWhiteSpace(diretor))
+                query = query.Where(a => a.Diretor.Contains(diretor));
+
+            return await query.ToListAsync();
+        }
 
         public async Task<Anime> GetByIdAsync(int id)
             => await _context.Animes.FindAsync(id);

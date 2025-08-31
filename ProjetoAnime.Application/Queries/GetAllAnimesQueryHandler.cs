@@ -15,21 +15,8 @@ namespace ProjetoAnime.Application.Queries
 
         public async Task<IEnumerable<Anime>> Handle(GetAllAnimesQuery request, CancellationToken cancellationToken)
         {
-            var animes = (await _repository.GetAllAsync()).ToList();
-
-            if (!string.IsNullOrEmpty(request.Nome))
-                animes = animes
-                    .Where(a => a.Nome.Contains(request.Nome, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-
-            if (!string.IsNullOrEmpty(request.Diretor))
-                animes = animes
-                    .Where(a => a.Diretor.Contains(request.Diretor, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-
-            return animes;
+            return await _repository.GetFilteredAsync(request.Nome, request.Diretor);
         }
-
     }
 
 }
